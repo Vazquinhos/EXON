@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\main.cpp" />
+    <ClCompile Include="..\..\source\ogl\geometry.cpp">
+      <Filter>ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ogl\ogl.cpp">
+      <Filter>ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ogl\program.cpp">
+      <Filter>ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ogl\shader.cpp">
+      <Filter>ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ogl\vertex.cpp">
+      <Filter>ogl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\ogl\geometry.hpp">
+      <Filter>ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ogl\ogl.hpp">
+      <Filter>ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ogl\program.hpp">
+      <Filter>ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ogl\shader.hpp">
+      <Filter>ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ogl\vertex.hpp">
+      <Filter>ogl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ogl">
+      <UniqueIdentifier>{11957e02-f65c-11ac-1912-6ca95379de1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
