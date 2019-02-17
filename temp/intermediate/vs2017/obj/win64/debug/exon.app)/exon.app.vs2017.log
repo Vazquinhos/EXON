@@ -1,5 +1,0 @@
-﻿  main.cpp
-c:\workspace\exon\source\main.cpp(12): warning C4100: 'window': parámetro formal sin referencia
-c:\workspace\exon\source\main.cpp(65): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
-c:\workspace\exon\source\main.cpp(66): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
-  exon.app.vs2017.vcxproj -> C:\workspace\exon\sharpmake\vs2017\output\win64\debug\exon.app.exe
