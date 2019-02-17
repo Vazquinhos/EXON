@@ -1,4 +1,7 @@
 #include "shader.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <glad/glad.h>
 
 namespace exon
@@ -27,6 +30,38 @@ namespace exon
             mId = shaderId;
 
             CheckErrors();
+        }
+        bool Shader::Read(GLenum type, const std::string & filename, Shader** shader)
+        {
+            std::stringstream stream;
+            try
+            {
+                std::ifstream shaderFile;
+                shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+                shaderFile.open(filename);
+                stream << shaderFile.rdbuf();
+                shaderFile.close();
+            }
+            catch (std::ifstream::failure e)
+            {
+                std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+                return false;
+            }
+
+            std::string codeStr = stream.str();
+            switch (type)
+            {
+            case GL_VERTEX_SHADER:
+                *shader = new VertexShader(codeStr.c_str(), codeStr.length());
+                break;
+            case GL_FRAGMENT_SHADER:
+                *shader = new FragmentShader(codeStr.c_str(), codeStr.length());
+                break;
+            default:
+                throw "Not implemented";
+            }
+
+            return true;
         }
         Shader::~Shader()
         {

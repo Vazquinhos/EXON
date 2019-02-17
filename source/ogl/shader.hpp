@@ -9,8 +9,9 @@ namespace exon
         class Shader : public OglEntity
         {
         public:
+            static bool Read(GLenum type, const std::string& filename, Shader** shader);
         public:
-            Shader(unsigned int type, const char* shaderSource, int length);
+            Shader(GLenum type, const char* shaderSource, int length);
             virtual ~Shader();
 
         protected:

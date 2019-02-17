@@ -21,10 +21,11 @@ namespace exon
             virtual ~Geometry();
 
             inline const std::vector<float>& GetVertexBuffer() const { return mVertexBuffer; }
-
-            void Bind();
-            void Unbind();
-            void Draw();
+            
+            virtual void Create();
+            virtual void Bind();
+            virtual void Unbind();
+            virtual void Draw();
 
         protected:
             unsigned int mStride;
@@ -32,6 +33,22 @@ namespace exon
             unsigned int VAO;
             std::vector<float> mVertexBuffer;
             std::vector<Attribute> mAttributes;
+        };
+
+        class IndexedGeometry : public Geometry
+        {
+            IndexedGeometry(const std::vector<float>& vertices, const std::vector<uint32_t>& indices, unsigned int stride, const std::vector<Attribute>& attributes);
+            virtual ~IndexedGeometry();
+
+            inline const std::vector<uint32_t>& GetIndexBuffer() const { return mIndexBuffer; }
+
+            void Create();
+            void Bind();
+            void Unbind();
+            void Draw();
+        protected:
+            unsigned int EBO;
+            std::vector<uint32_t> mIndexBuffer;
         };
     }
 }

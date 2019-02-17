@@ -4,6 +4,7 @@
 #include "ogl/geometry.hpp"
 #include "ogl/program.hpp"
 #include "ogl/vertex.hpp"
+#include "ogl/texture.hpp"
 
 #include <stdio.h>
 
@@ -22,6 +23,17 @@ void processInput(GLFWwindow *window)
 
 int main()
 {
+    TCHAR Buffer[MAX_PATH];
+    DWORD dwRet = GetCurrentDirectory(MAX_PATH, Buffer);
+    std::string currentWorkingDirectory = Buffer;
+    currentWorkingDirectory += "/../../data";
+
+    if (!SetCurrentDirectory(currentWorkingDirectory.c_str()))
+    {
+        printf("SetCurrentDirectory failed (%d)\n", GetLastError());
+        return 0;
+    }
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -43,40 +55,34 @@ int main()
 		return -1;
 	}
 
-    const std::string vertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "layout (location = 1) in vec3 aColor;\n"
-        "out vec3 Color;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-        "   Color = aColor;\n"
-        "}\0";
+    Shader *vertexShader, *fragmentShader;
+    if (!Shader::Read(GL_VERTEX_SHADER, "screen_position_color_uv.vert", &vertexShader) ||
+        !Shader::Read(GL_FRAGMENT_SHADER, "screen_position_color_uv.frag", &fragmentShader))
+    {
+        return -1;
+    }
+    
+    Texture* texture;
+    if (!Texture::Read(GL_TEXTURE_2D, "textures/Tiles_Azulejos_004a_COLOR.jpg", &texture))
+    {
+        return -1;
+    }
 
-    const std::string fragmentShaderSource = "#version 330 core\n"
-        "out vec4 FragColor;\n"
-        "in vec3 Color;\n"
-        "void main()\n"
-        "{\n"
-        "   //FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "   FragColor = vec4(Color.rgb, 1.0f);\n"
-        "}\n\0";
-
-    Shader * vertexShader = new VertexShader(vertexShaderSource.c_str(), vertexShaderSource.length());
-    Shader * fragmentShader = new FragmentShader(fragmentShaderSource.c_str(), fragmentShaderSource.length());
     Program * program = new Program(std::vector<Shader*>{vertexShader, fragmentShader});
 
     Geometry::Attribute positionAttribute { 3, 0, false };
     Geometry::Attribute colorAttribute{ 3, 3, false };
+    Geometry::Attribute uvAttribute{ 2, 6, false };
     
     std::vector<float> vertices =
     {
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,
-        0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,      0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f,      0.0f, 1.0f, 0.0f,      1.0f, 0.0f,
+        0.0f,  0.5f, 0.0f,      0.0f, 0.0f, 1.0f,      0.5f, 1.0f,
     };
 
-    Geometry* geometry = new Geometry(vertices, 6, std::vector<Geometry::Attribute>{positionAttribute , colorAttribute});
+    Geometry* geometry = new Geometry(vertices, 8, std::vector<Geometry::Attribute>{positionAttribute , colorAttribute, uvAttribute});
+    geometry->Create();
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -89,10 +95,14 @@ int main()
 
         // Bind all data 
         program->Bind();
+        texture->Bind();
         geometry->Bind();
 
         // Draw our geometry
         geometry->Draw();
+
+        geometry->Unbind();
+        //program->UnBind();
 
 		glfwSwapBuffers(window);
         glfwPollEvents();
