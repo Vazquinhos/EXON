@@ -1,6 +1,9 @@
 #include "program.hpp"
 #include "shader.hpp"
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace exon
 {
@@ -46,5 +49,16 @@ namespace exon
         {
             glUseProgram(mId);
         }
+
+		void Program::SetMatrix(const glm::mat4& matrix, const std::string& attributeName)
+		{
+			unsigned int matrixLoc = glGetUniformLocation(mId, attributeName.c_str());
+			SetMatrix(matrix, matrixLoc);
+		}
+
+		void Program::SetMatrix(const glm::mat4& matrix, unsigned int location)
+		{
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		}
     }
 }

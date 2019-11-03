@@ -13,8 +13,6 @@ namespace exon
         public:
             Shader(GLenum type, const char* shaderSource, int length);
             virtual ~Shader();
-
-        protected:
         };
 
         class VertexShader : public Shader

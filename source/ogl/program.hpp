@@ -14,6 +14,8 @@ namespace exon
             virtual ~Program();
 
             void Bind();
+			void SetMatrix(const glm::mat4& matrix, const std::string& attributeName);
+			void SetMatrix(const glm::mat4& matrix, unsigned int location);
         protected:
 
             const std::vector<Shader*> mShaders;

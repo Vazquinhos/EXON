@@ -6,7 +6,6 @@
 #include "ogl/vertex.hpp"
 #include "ogl/texture.hpp"
 
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -60,7 +59,7 @@ int main()
 	}
 
     Shader *vertexShader, *fragmentShader;
-    if (!Shader::Read(GL_VERTEX_SHADER, "screen_position_color_uv.vert", &vertexShader) ||
+    if (!Shader::Read(GL_VERTEX_SHADER, "position_color_uv.vert", &vertexShader) ||
         !Shader::Read(GL_FRAGMENT_SHADER, "screen_position_color_uv.frag", &fragmentShader))
     {
         return -1;
@@ -88,6 +87,14 @@ int main()
     Geometry* geometry = new Geometry(vertices, 8, std::vector<Geometry::Attribute>{positionAttribute , colorAttribute, uvAttribute});
     geometry->Create();
 
+	// create transformations
+	glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
+
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	while (!glfwWindowShouldClose(window))
@@ -96,6 +103,10 @@ int main()
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		program->SetMatrix(model, "model");
+		program->SetMatrix(view, "view");
+		program->SetMatrix(projection, "projection");
 
         // Bind all data 
         program->Bind();
