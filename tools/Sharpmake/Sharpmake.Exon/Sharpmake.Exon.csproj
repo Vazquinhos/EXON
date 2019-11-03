@@ -45,6 +45,7 @@
     <Compile Include="exon.main.sharpmake.cs" />
     <Compile Include="extern.glad.sharpmake.cs" />
     <Compile Include="extern.glfw.sharpmake.cs" />
+    <Compile Include="extern.glm.sharpmake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

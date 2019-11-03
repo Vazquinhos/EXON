@@ -26,6 +26,7 @@
         {
             conf.IncludePaths.Add(Path.Combine("include"));
             conf.Output = Configuration.OutputType.Lib;
+            conf.SolutionFolder = "extern";
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿[module: Sharpmake.Include("exon.common.sharpmake.cs")]
 [module: Sharpmake.Include("extern.glfw.sharpmake.cs")]
 [module: Sharpmake.Include("extern.glad.sharpmake.cs")]
+[module: Sharpmake.Include("extern.glm.sharpmake.cs")]
 
 namespace Sharpmake.Exon
 {
@@ -27,6 +28,7 @@ namespace Sharpmake.Exon
         {
             conf.IncludePaths.Add(Path.Combine("../extern/", Glfw.FolderName, "include"));
             conf.IncludePaths.Add(Path.Combine("../extern/", Glad.FolderName, "include"));
+            conf.IncludePaths.Add(Path.Combine("../extern/", Glm.FolderName));
             conf.Output = Configuration.OutputType.Exe;
             conf.AddPrivateDependency<Glfw>(target);
             conf.AddPrivateDependency<Glad>(target);
@@ -68,6 +70,7 @@ namespace Sharpmake.Exon
             // from the 32-bit targets.
             conf.AddProject<Glfw>(target);
             conf.AddProject<Glad>(target);
+            conf.AddProject<Glm>(target);
             conf.AddProject<ExonApp>(target);
         }
 

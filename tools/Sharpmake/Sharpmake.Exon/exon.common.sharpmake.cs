@@ -6,7 +6,7 @@
     {
         public static string SourcePath = "../../../source/";
         public static string ExternPath = "../../../extern/";
-        public static string OutputPath = "../../../temp/output";
+        public static string OutputPath = "../../../sharpmake/";
         public static string IntermediatePath = "../../../temp/intermediate/";
     }
 

@@ -37,6 +37,7 @@
         public void ConfigureAll(Project.Configuration conf, Target target)
         {
             conf.IncludePaths.Add("include");
+            conf.SolutionFolder = "extern";
             conf.IncludePaths.Add(Path.Combine(Constants.ExternPath, "glad", "include"));
             conf.Output = Configuration.OutputType.Lib;
             conf.Defines.Add("_GLFW_WIN32");
